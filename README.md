@@ -1,4 +1,4 @@
-# ToneSense 🎯
+# ToneSense 
 > AI-powered tone detection and rewrite assistant for professional communication
 
 ToneSense helps students and professionals detect emotional risk in their written messages and rewrite them into a more appropriate tone — before hitting send.
