@@ -6,58 +6,72 @@ function buildAnalysisPrompt(text, context, language) {
   const formalityGuide = CONTEXT_FORMALITY[context] || 'professional';
 
   if (isEn) {
-    return `You are a senior communication psychologist and expert linguist specializing in professional communication analysis.
+    return `You are a senior communication psychologist and expert linguist.
+
+CRITICAL LANGUAGE RULE: The user has selected ENGLISH mode. You MUST:
+- Detect and analyze the message as English text only
+- If the input appears to be in another language (e.g. Indonesian/Bahasa), still respond entirely in English
+- All output fields (tone, sentiment, emotion, summary, risk_words reasons) MUST be written in English
+- Never mix languages in your response
 
 Your task: Analyze the tone, emotional risk, and communication quality of the following message.
 
 ---
 MESSAGE: "${text}"
-CONTEXT: The message will be sent as a ${context.replace(/_/g, ' ')}. Required formality level: ${formalityGuide}.
+CONTEXT: This message will be sent as a ${context.replace(/_/g, ' ')}. Required formality level: ${formalityGuide}.
+LANGUAGE: English — all analysis must be in English regardless of input language.
 ---
 
 SCORING RUBRIC — be critical and precise:
 - risk_score 0.0–0.29 → genuinely professional, clear, respectful, no red flags
-- risk_score 0.30–0.59 → some friction: slightly informal, mild blame, ambiguous phrasing, or missed opportunity for warmth
-- risk_score 0.60–0.79 → clear issues: direct blame, passive aggression, frustration leaking through, defensive framing
+- risk_score 0.30–0.59 → some friction: slightly informal, mild blame, ambiguous phrasing
+- risk_score 0.60–0.79 → clear issues: direct blame, passive aggression, frustration leaking through
 - risk_score 0.80–1.00 → high risk: hostile, aggressive, emotionally charged, relationship-damaging
 
 DETECT THESE PATTERNS (flag all that apply):
 - Absolute language: "always", "never", "every time", "nobody", "everyone"
 - Direct blame: "you did", "your fault", "because of you"
-- Passive aggression: "fine", "whatever", "as usual", "I guess", "if you say so"
+- Passive aggression: "fine", "whatever", "as usual", "I guess"
 - Dismissiveness: "obviously", "clearly", "you should know"
 - Emotional leakage: frustration, resentment, sarcasm, exasperation
 - Tone mismatch: too casual for the context, or overly stiff
 - Missing elements: no greeting, no clear ask, no closing
 
-Return ONLY a valid JSON object with no extra text or markdown:
+Return ONLY a valid JSON object — no markdown, no extra text:
 {
   "tone": "one of: ${toneOptions}",
   "sentiment": "positive / negative / neutral",
-  "emotion": "primary emotion (e.g. frustration, anxiety, anger, disappointment, sarcasm)",
+  "emotion": "primary emotion in English (e.g. frustration, anxiety, anger, disappointment)",
   "risk_score": number 0.0 to 1.0 (two decimal places),
   "risk_level": "Low / Medium / High",
   "confidence": integer 0 to 100,
   "risk_words": [
-    { "word": "exact word or phrase from the text", "reason": "specific explanation of why it is risky in this context" }
+    { "word": "exact word or phrase from the text", "reason": "specific explanation in English" }
   ],
-  "summary": "A sharp, honest 2-3 sentence analysis. Name the specific tone problems and explain the real-world impact if this message is sent as-is."
+  "summary": "2-3 sentences in English. Name the specific tone problems and explain the real-world impact."
 }`;
   }
 
-  return `Kamu adalah psikolog komunikasi senior dan ahli linguistik profesional yang spesialis dalam analisis komunikasi tertulis.
+  return `Kamu adalah psikolog komunikasi senior dan ahli linguistik profesional.
 
-Tugasmu: Analisis tone, risiko emosional, dan kualitas komunikasi dari pesan berikut secara mendalam dan jujur.
+ATURAN BAHASA WAJIB: Pengguna telah memilih mode BAHASA INDONESIA. Kamu HARUS:
+- Mendeteksi dan menganalisis pesan sebagai teks Bahasa Indonesia
+- Jika input terlihat dalam bahasa lain (misalnya Inggris), tetap respons sepenuhnya dalam Bahasa Indonesia
+- Semua field output (tone, sentiment, emotion, summary, alasan risk_words) WAJIB ditulis dalam Bahasa Indonesia
+- Jangan pernah mencampur bahasa dalam respons
+
+Tugasmu: Analisis tone, risiko emosional, dan kualitas komunikasi dari pesan berikut secara mendalam.
 
 ---
 PESAN: "${text}"
-KONTEKS: Pesan ini akan dikirim sebagai ${context.replace(/_/g, ' ')}. Tingkat formalitas yang dibutuhkan: ${formalityGuide}.
+KONTEKS: Pesan ini akan dikirim sebagai ${context.replace(/_/g, ' ')}. Tingkat formalitas: ${formalityGuide}.
+BAHASA: Bahasa Indonesia — semua analisis harus dalam Bahasa Indonesia apapun bahasa inputnya.
 ---
 
 PANDUAN PENILAIAN — jadilah kritis dan presisi:
 - risk_score 0.0–0.29 → benar-benar profesional, jelas, sopan, tidak ada masalah
-- risk_score 0.30–0.59 → ada gesekan: sedikit informal, sedikit menyalahkan, frasa ambigu, atau kurang hangat
-- risk_score 0.60–0.79 → masalah jelas: menyalahkan langsung, pasif-agresif, frustrasi terlihat, framing defensif
+- risk_score 0.30–0.59 → ada gesekan: sedikit informal, sedikit menyalahkan, frasa ambigu
+- risk_score 0.60–0.79 → masalah jelas: menyalahkan langsung, pasif-agresif, frustrasi terlihat
 - risk_score 0.80–1.00 → risiko tinggi: hostile, agresif, muatan emosi tinggi, merusak hubungan
 
 DETEKSI POLA BERIKUT (tandai semua yang ada):
@@ -69,18 +83,18 @@ DETEKSI POLA BERIKUT (tandai semua yang ada):
 - Tone tidak sesuai: terlalu santai untuk konteks, atau terlalu kaku
 - Elemen hilang: tidak ada salam, tidak ada pertanyaan jelas, tidak ada penutup
 
-Kembalikan HANYA objek JSON yang valid, tanpa teks tambahan atau markdown:
+Kembalikan HANYA objek JSON yang valid — tanpa markdown, tanpa teks tambahan:
 {
   "tone": "salah satu dari: ${toneOptions}",
   "sentiment": "positif / negatif / netral",
-  "emotion": "emosi utama (contoh: frustrasi, cemas, marah, kecewa, sarkasme)",
+  "emotion": "emosi utama dalam Bahasa Indonesia (contoh: frustrasi, cemas, marah, kecewa)",
   "risk_score": angka 0.0 sampai 1.0 (dua desimal),
   "risk_level": "Rendah / Sedang / Tinggi",
   "confidence": integer 0 sampai 100,
   "risk_words": [
-    { "word": "kata atau frasa persis dari teks", "reason": "penjelasan spesifik kenapa berisiko dalam konteks ini" }
+    { "word": "kata atau frasa persis dari teks", "reason": "penjelasan spesifik dalam Bahasa Indonesia" }
   ],
-  "summary": "Analisis tajam dan jujur 2-3 kalimat. Sebutkan masalah tone spesifik dan jelaskan dampak nyata jika pesan ini dikirim apa adanya."
+  "summary": "2-3 kalimat dalam Bahasa Indonesia. Sebutkan masalah tone dan dampak nyatanya."
 }`;
 }
 
@@ -92,52 +106,66 @@ function buildRewritePrompt(text, context, mode, language) {
   const contextLabel = context.replace(/_/g, ' ');
 
   if (isEn) {
-    return `You are a master communication coach with 20 years of experience helping professionals communicate with precision and impact.
+    return `You are a master communication coach with 20 years of experience.
+
+CRITICAL LANGUAGE RULE: The user has selected ENGLISH mode.
+- You MUST rewrite the message in English only
+- If the original message is in another language, still produce the rewrite in English
+- Never output any Indonesian or other language in your response
+- The entire rewritten message must be in English
 
 TASK: Rewrite the message below so it sounds ${modeInstruction}
 
 ---
 ORIGINAL MESSAGE: "${text}"
 RECIPIENT CONTEXT: ${contextLabel} — required formality: ${formalityGuide}
+OUTPUT LANGUAGE: English only — regardless of input language
 ---
 
-REWRITING RULES — follow all of them:
-1. Preserve 100% of the original intent and core information — do not add or remove key points
-2. Replace absolute language ("always", "never") with specific or softer alternatives ("on several occasions", "rarely")
-3. Convert blame statements ("you did X") to observation statements ("it appears X happened" or "I noticed X")
+REWRITING RULES:
+1. Preserve 100% of the original intent
+2. Replace absolute language ("always", "never") with softer alternatives
+3. Convert blame ("you did X") to observation ("it appears X happened")
 4. Use "I" statements for feelings — never "you" accusations
-5. Match the appropriate register for the recipient: ${contextLabel}
-6. Sound like a real human wrote this — not a template or AI
-7. Do NOT add hollow openers like "I hope this email finds you well" unless genuinely appropriate
-8. Do NOT make it longer than necessary — every sentence must earn its place
-9. If the context is a formal email (lecturer/manager/client), include an appropriate greeting and closing
-10. The result must feel natural when read aloud
+5. Match register for the recipient: ${contextLabel}
+6. Sound like a real human — not a template or AI
+7. Do NOT add hollow openers like "I hope this email finds you well"
+8. Do NOT make it longer than necessary
+9. If formal email context, include appropriate greeting and closing in English
+10. Must feel natural when read aloud in English
 
-Return ONLY the rewritten message — no explanation, no labels, nothing else.`;
+Return ONLY the rewritten message in English — no explanation, no labels, nothing else.`;
   }
 
-  return `Kamu adalah communication coach terbaik dengan pengalaman 20 tahun membantu para profesional berkomunikasi dengan tepat dan berdampak.
+  return `Kamu adalah communication coach terbaik dengan pengalaman 20 tahun.
+
+ATURAN BAHASA WAJIB: Pengguna telah memilih mode BAHASA INDONESIA.
+- Kamu WAJIB menulis ulang pesan dalam Bahasa Indonesia saja
+- Jika pesan asli dalam bahasa lain, tetap hasilkan rewrite dalam Bahasa Indonesia
+- Jangan pernah menggunakan bahasa Inggris atau bahasa lain dalam output
+- Seluruh pesan hasil rewrite harus dalam Bahasa Indonesia
 
 TUGAS: Tulis ulang pesan berikut agar terdengar ${modeInstruction}
 
 ---
 PESAN ASLI: "${text}"
 KONTEKS PENERIMA: ${contextLabel} — formalitas yang dibutuhkan: ${formalityGuide}
+BAHASA OUTPUT: Bahasa Indonesia saja — apapun bahasa inputnya
 ---
 
-ATURAN REWRITE — ikuti semua:
-1. Pertahankan 100% maksud asli dan informasi inti — jangan tambah atau kurangi poin penting
-2. Ganti bahasa absolut ("selalu", "tidak pernah") dengan alternatif yang spesifik atau lebih lembut ("beberapa kali", "jarang")
-3. Ubah pernyataan menyalahkan ("kamu melakukan X") menjadi pernyataan observasi ("sepertinya X terjadi" atau "saya perhatikan X")
-4. Gunakan kalimat "Saya" untuk mengungkapkan perasaan — jangan tuduhan "Kamu"
-5. Sesuaikan register bahasa dengan penerima: ${contextLabel}
-6. Terdengar seperti ditulis manusia sungguhan — bukan template atau AI
-7. JANGAN tambahkan pembuka kosong seperti "Semoga email ini menemukan Anda dalam keadaan baik" kecuali benar-benar tepat
-8. JANGAN lebih panjang dari yang dibutuhkan — setiap kalimat harus punya fungsi
-9. Jika konteksnya email formal (dosen/atasan/klien), sertakan salam pembuka dan penutup yang sesuai
-10. Hasilnya harus terasa natural saat dibaca keras
+ATURAN REWRITE:
+1. Pertahankan 100% maksud asli
+2. Ganti bahasa absolut ("selalu", "tidak pernah") dengan alternatif lebih lembut
+3. Ubah blame ("kamu melakukan X") jadi observasi ("sepertinya X terjadi")
+4. Gunakan kalimat "Saya" — bukan tuduhan "Kamu"
+5. Sesuaikan register dengan penerima: ${contextLabel}
+6. Terdengar seperti ditulis manusia — bukan template atau AI
+7. JANGAN tambah pembuka kosong yang tidak perlu
+8. JANGAN lebih panjang dari yang dibutuhkan
+9. Jika email formal (dosen/atasan/klien), sertakan salam dan penutup dalam Bahasa Indonesia
+10. Harus terasa natural saat dibaca keras dalam Bahasa Indonesia
 
-Kembalikan HANYA pesan hasil rewrite — tanpa penjelasan, tanpa label, tidak ada yang lain.`;
+Kembalikan HANYA pesan hasil rewrite dalam Bahasa Indonesia — tanpa penjelasan, tanpa label.`;
 }
 
 module.exports = { buildAnalysisPrompt, buildRewritePrompt };

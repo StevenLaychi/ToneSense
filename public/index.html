@@ -3,214 +3,243 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="ToneSense — AI-powered tone detection and rewriting tool for professional communication." />
-  <title>ToneSense — Communicate with Confidence</title>
+  <meta name="description" content="ToneSense — Detect and fix your message tone before you send it." />
+  <title>ToneSense</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-  <div class="bg-grid"></div>
+  <div class="app-shell">
 
-  <header class="header">
-    <div class="header-inner">
-      <div class="logo">
-        <div class="logo-mark">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          </svg>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="brand">
+          <div class="brand-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">ToneSense</span>
+            <span class="brand-tag">v2.0</span>
+          </div>
         </div>
-        <span class="logo-text">ToneSense</span>
-        <span class="logo-version">v2.0</span>
-      </div>
-      <p class="header-tagline">Detect & fix your tone before you hit send</p>
-    </div>
-  </header>
 
-  <main class="layout">
+        <div class="sidebar-section">
+          <p class="sidebar-label">Language</p>
+          <div class="lang-pills" id="lang-toggle">
+            <button class="lang-pill active" data-value="id">
+              <span class="flag">🇮🇩</span>
+              <span>Indonesia</span>
+            </button>
+            <button class="lang-pill" data-value="en">
+              <span class="flag">🇺🇸</span>
+              <span>English</span>
+            </button>
+          </div>
+        </div>
 
-    <!-- LEFT PANEL -->
-    <aside class="panel panel-input">
+        <div class="sidebar-section">
+          <p class="sidebar-label">Sending to</p>
+          <div class="context-list" id="context-list">
+            <button class="context-item active" data-value="lecturer_email">
+              <span class="context-icon">📚</span>
+              <span class="context-name" data-id="ctx-lecturer">Dosen / Lecturer</span>
+            </button>
+            <button class="context-item" data-value="manager_email">
+              <span class="context-icon">💼</span>
+              <span class="context-name" data-id="ctx-manager">Atasan / Manager</span>
+            </button>
+            <button class="context-item" data-value="colleague_chat">
+              <span class="context-icon">💬</span>
+              <span class="context-name" data-id="ctx-colleague">Rekan / Colleague</span>
+            </button>
+            <button class="context-item" data-value="complaint">
+              <span class="context-icon">🛎️</span>
+              <span class="context-name" data-id="ctx-complaint">Komplain / Complaint</span>
+            </button>
+            <button class="context-item" data-value="client_message">
+              <span class="context-icon">🤝</span>
+              <span class="context-name" data-id="ctx-client">Klien / Client</span>
+            </button>
+          </div>
+        </div>
 
-      <div class="section-label">
-        <span class="section-num">01</span>
-        <span>Input</span>
-      </div>
-
-      <div class="field">
-        <label class="field-label">Language</label>
-        <div class="toggle-group" id="lang-toggle">
-          <button class="toggle-btn active" data-value="id">🇮🇩 Indonesia</button>
-          <button class="toggle-btn" data-value="en">🇺🇸 English</button>
+        <div class="sidebar-section">
+          <p class="sidebar-label">Rewrite mode</p>
+          <div class="mode-list" id="mode-list">
+            <button class="mode-item active" data-value="professional">
+              <span class="mode-dot" style="--c:#a8ff57"></span>
+              <div>
+                <p class="mode-name">Professional Formal</p>
+                <p class="mode-hint">For superiors, lecturers, clients</p>
+              </div>
+            </button>
+            <button class="mode-item" data-value="polite_firm">
+              <span class="mode-dot" style="--c:#57c8ff"></span>
+              <div>
+                <p class="mode-name">Polite but Firm</p>
+                <p class="mode-hint">Clear without being aggressive</p>
+              </div>
+            </button>
+            <button class="mode-item" data-value="neutral">
+              <span class="mode-dot" style="--c:#ffd557"></span>
+              <div>
+                <p class="mode-name">Neutral Clarification</p>
+                <p class="mode-hint">Facts only, no emotion</p>
+              </div>
+            </button>
+            <button class="mode-item" data-value="deescalate">
+              <span class="mode-dot" style="--c:#ff8c57"></span>
+              <div>
+                <p class="mode-name">De-escalation</p>
+                <p class="mode-hint">Empathetic, calm, solution-first</p>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
 
-      <div class="field">
-        <label class="field-label" for="context-select">Sending to</label>
-        <div class="select-wrapper">
-          <select id="context-select">
-            <option value="lecturer_email">📚 Dosen / Lecturer</option>
-            <option value="manager_email">💼 Atasan / Manager</option>
-            <option value="colleague_chat">💬 Rekan Kerja / Colleague</option>
-            <option value="complaint">🛎️ Customer Service / Complaint</option>
-            <option value="client_message">🤝 Klien / Client</option>
-          </select>
-          <svg class="select-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      <div class="sidebar-bottom">
+        <div class="tip-card">
+          <p class="tip-label">💡 Tip</p>
+          <p class="tip-text" id="tip-text">Select your language first, then type your message in that language.</p>
         </div>
       </div>
+    </aside>
 
-      <div class="field field-grow">
-        <div class="field-label-row">
-          <label class="field-label" for="text-input">Your message</label>
-          <span class="char-counter"><span id="char-count">0</span> / 3000</span>
+    <!-- MAIN -->
+    <main class="main">
+
+      <!-- INPUT AREA -->
+      <div class="input-zone">
+        <div class="input-header">
+          <span class="input-badge" id="lang-badge">🇮🇩 Bahasa Indonesia</span>
+          <span class="char-count"><span id="char-count">0</span> / 3000</span>
         </div>
         <textarea
           id="text-input"
-          class="textarea"
-          placeholder="Paste or type your message here..."
+          class="main-textarea"
+          placeholder="Ketik atau paste pesanmu di sini..."
           maxlength="3000"
           spellcheck="true"
         ></textarea>
-      </div>
-
-      <button class="btn btn-primary" id="btn-analyze">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        Analyze Tone
-      </button>
-
-      <div class="divider"></div>
-
-      <div class="section-label">
-        <span class="section-num">02</span>
-        <span>Rewrite Mode</span>
-      </div>
-
-      <div class="mode-list" id="mode-list">
-        <button class="mode-btn active" data-value="professional">
-          <span class="mode-dot" style="background:#c8f135"></span>
-          <div class="mode-info">
-            <span class="mode-name">Professional Formal</span>
-            <span class="mode-desc">For emails to superiors, lecturers, clients</span>
-          </div>
-        </button>
-        <button class="mode-btn" data-value="polite_firm">
-          <span class="mode-dot" style="background:#5cb8ff"></span>
-          <div class="mode-info">
-            <span class="mode-name">Polite but Firm</span>
-            <span class="mode-desc">Clear and direct without being aggressive</span>
-          </div>
-        </button>
-        <button class="mode-btn" data-value="neutral">
-          <span class="mode-dot" style="background:#ffd95c"></span>
-          <div class="mode-info">
-            <span class="mode-name">Neutral Clarification</span>
-            <span class="mode-desc">Fact-based, objective, no emotional charge</span>
-          </div>
-        </button>
-        <button class="mode-btn" data-value="deescalate">
-          <span class="mode-dot" style="background:#ff8c5c"></span>
-          <div class="mode-info">
-            <span class="mode-name">De-escalation</span>
-            <span class="mode-desc">Empathetic, calm, focused on resolution</span>
-          </div>
-        </button>
-      </div>
-
-      <button class="btn btn-secondary" id="btn-rewrite" disabled>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        Rewrite Message
-      </button>
-
-    </aside>
-
-    <!-- RIGHT PANEL -->
-    <section class="panel panel-output" id="panel-output">
-
-      <div class="empty-state" id="empty-state">
-        <div class="empty-icon">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <div class="input-actions">
+          <button class="btn-clear" id="btn-clear">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+            Clear
+          </button>
+          <button class="btn-analyze" id="btn-analyze">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            Analyze Tone
+          </button>
         </div>
-        <p class="empty-title">Your analysis will appear here</p>
-        <p class="empty-sub">Type your message and click <strong>Analyze Tone</strong></p>
       </div>
 
-      <div id="results-container" style="display:none">
+      <!-- OUTPUT AREA -->
+      <div class="output-zone" id="output-zone">
 
-        <!-- TONE RESULT CARD -->
-        <div class="card" id="card-tone">
-          <div class="card-header">
-            <span class="card-badge">Tone Analysis</span>
-            <span class="risk-pill" id="risk-pill">—</span>
-          </div>
-
-          <div class="tone-row">
-            <div class="tone-main">
-              <span class="tone-name" id="tone-name">—</span>
-              <div class="tone-tags">
-                <span class="tag" id="tag-sentiment">—</span>
-                <span class="tag" id="tag-emotion">—</span>
-              </div>
+        <!-- EMPTY -->
+        <div class="empty-screen" id="empty-screen">
+          <div class="empty-visual">
+            <div class="empty-rings">
+              <div class="ring ring-1"></div>
+              <div class="ring ring-2"></div>
+              <div class="ring ring-3"></div>
             </div>
-            <div class="tone-score">
-              <svg class="score-ring" viewBox="0 0 64 64" id="score-ring-svg">
-                <circle class="ring-track" cx="32" cy="32" r="26" />
-                <circle class="ring-fill" cx="32" cy="32" r="26" id="ring-fill" />
-              </svg>
-              <div class="score-inner">
-                <span class="score-val" id="score-val">0</span>
-                <span class="score-label">risk</span>
+            <div class="empty-center">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+          </div>
+          <p class="empty-title">Paste your message and analyze</p>
+          <p class="empty-sub">Results will appear here</p>
+        </div>
+
+        <!-- RESULTS -->
+        <div id="results-wrap" style="display:none">
+
+          <!-- TONE HERO -->
+          <div class="tone-hero" id="tone-hero">
+            <div class="tone-hero-left">
+              <p class="tone-eyebrow">Detected tone</p>
+              <h2 class="tone-headline" id="tone-headline">—</h2>
+              <div class="tone-pills">
+                <span class="tone-pill" id="pill-sentiment">—</span>
+                <span class="tone-pill" id="pill-emotion">—</span>
+              </div>
+              <p class="tone-summary-text" id="tone-summary"></p>
+            </div>
+            <div class="tone-hero-right">
+              <div class="gauge-wrap">
+                <svg class="gauge-svg" viewBox="0 0 120 120">
+                  <circle class="gauge-track" cx="60" cy="60" r="48"/>
+                  <circle class="gauge-fill" cx="60" cy="60" r="48" id="gauge-fill"/>
+                </svg>
+                <div class="gauge-inner">
+                  <span class="gauge-val" id="gauge-val">0</span>
+                  <span class="gauge-sub">risk</span>
+                </div>
+              </div>
+              <div class="risk-badge-wrap">
+                <span class="risk-badge" id="risk-badge">—</span>
+              </div>
+              <div class="confidence-line">
+                <span class="conf-label">Confidence</span>
+                <div class="conf-track"><div class="conf-fill" id="conf-fill"></div></div>
+                <span class="conf-val" id="conf-val">—</span>
               </div>
             </div>
           </div>
 
-          <div class="confidence-row">
-            <span class="confidence-label">AI Confidence</span>
-            <div class="confidence-bar-track">
-              <div class="confidence-bar-fill" id="confidence-bar"></div>
+          <!-- RISK WORDS -->
+          <div class="section-card" id="card-risks" style="display:none">
+            <div class="section-head">
+              <span class="section-icon warn">⚠</span>
+              <h3 class="section-title" id="risk-title">Flagged Phrases</h3>
             </div>
-            <span class="confidence-val" id="confidence-val">—%</span>
+            <div class="risk-chips" id="risk-chips"></div>
+            <div class="preview-box" id="preview-box"></div>
           </div>
 
-          <p class="tone-summary" id="tone-summary"></p>
-        </div>
-
-        <!-- RISK WORDS CARD -->
-        <div class="card" id="card-risk" style="display:none">
-          <div class="card-header">
-            <span class="card-badge card-badge-warn">⚠ Flagged Phrases</span>
+          <!-- REWRITE -->
+          <div class="section-card" id="card-rewrite" style="display:none">
+            <div class="section-head">
+              <span class="section-icon ok">✦</span>
+              <h3 class="section-title" id="rewrite-title">Rewritten Message</h3>
+              <button class="btn-copy" id="btn-copy">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy
+              </button>
+            </div>
+            <div class="compare-grid">
+              <div class="compare-col">
+                <p class="compare-label original">Original</p>
+                <div class="compare-body" id="original-body"></div>
+              </div>
+              <div class="compare-divider"></div>
+              <div class="compare-col">
+                <p class="compare-label improved">Improved</p>
+                <div class="compare-body improved-body" id="improved-body"></div>
+              </div>
+            </div>
           </div>
-          <div id="risk-words" class="risk-words"></div>
-          <div class="highlighted-preview" id="highlighted-preview"></div>
-        </div>
 
-        <!-- REWRITE CARD -->
-        <div class="card" id="card-rewrite" style="display:none">
-          <div class="card-header">
-            <span class="card-badge card-badge-success">✦ Rewritten Message</span>
-            <button class="btn-icon-text" id="btn-copy">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              Copy
+          <!-- REWRITE CTA -->
+          <div class="rewrite-cta" id="rewrite-cta">
+            <p class="cta-text" id="cta-text">Ready to rewrite? Select a mode from the sidebar.</p>
+            <button class="btn-rewrite" id="btn-rewrite">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              Rewrite Message
             </button>
           </div>
-          <div class="comparison-grid">
-            <div class="comparison-col">
-              <div class="col-header col-original">Original</div>
-              <div class="col-body" id="col-original-text"></div>
-            </div>
-            <div class="comparison-sep"></div>
-            <div class="comparison-col">
-              <div class="col-header col-improved">Improved</div>
-              <div class="col-body col-body-improved" id="col-improved-text"></div>
-            </div>
-          </div>
+
         </div>
-
       </div>
-    </section>
-  </main>
 
-  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+    </main>
+  </div>
 
+  <div class="toast" id="toast"></div>
   <script src="/js/app.js"></script>
 </body>
 </html>
